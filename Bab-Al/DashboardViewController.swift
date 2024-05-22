@@ -14,9 +14,16 @@ class DashboardViewController: UIViewController {
 
     }
     
-    @IBAction func logoutClicked(_ sender: UIButton) {
-        print("Logout successful")
-        self.performSegue(withIdentifier: "goToStart", sender: self)
+//    @IBAction func logoutClicked(_ sender: UIButton) {
+//        UserInfoManager.shared.logout()
+//        print("Logout successful")
+//        
+//        self.performSegue(withIdentifier: "goToLogin", sender: self)
+//    }
+    
+    private func configureItems() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .add, target: self, action: nil)
     }
     
     /*

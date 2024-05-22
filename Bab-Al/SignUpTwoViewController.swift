@@ -52,23 +52,6 @@ class SignUpTwoViewController: UIViewController {
         // Enable nextButton if any option is selected
         nextButton.isEnabled = true
             
-//        // Perform actions based on the selected option
-//        switch sender {
-//        case levelOneButton:
-//            // Handle selection of option 1
-//            print("Option 1 selected")
-//        case levelTwoButton:
-//            // Handle selection of option 2
-//            print("Option 2 selected")
-//        case levelThreeButton:
-//            // Handle selection of option 3
-//            print("Option 3 selected")
-//        case levelFourButton:
-//            // Handle selection of option 4
-//            print("Option 4 selected")
-//        default:
-//            break
-//        }
     }
     
     

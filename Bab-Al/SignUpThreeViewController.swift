@@ -62,7 +62,7 @@ class SignUpThreeViewController: UIViewController {
             switch result {
             case .success:
                 print("User information sent successfully!")
-                self.performSegue(withIdentifier: "goToNext", sender: self)
+                self.performSegue(withIdentifier: "goToLogin", sender: self)
             case .failure(let error):
                 print("Error sending user information: \(error)")
             }

@@ -126,6 +126,10 @@ class UserInfoManager {
             }
     }
     
+    func logout() {
+        clearAuthToken()
+    }
+    
     // Function to get the stored JWT token
     func getAuthToken() -> String? {
         return authToken

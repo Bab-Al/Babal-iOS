@@ -24,8 +24,6 @@ class SignUpOneViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        let userInfo = UserInfoManager.shared.userInfo
-
         
         // Set text field delegates
         ageTextField.delegate = self
