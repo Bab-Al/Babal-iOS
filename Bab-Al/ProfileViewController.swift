@@ -9,8 +9,13 @@ import UIKit
 
 class ProfileViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
+    @IBOutlet weak var profileImageView: UIImageView!
+    @IBOutlet weak var heightTextLabel: UILabel!
+    @IBOutlet weak var weightTextLabel: UILabel!
     @IBOutlet weak var profileTableView: UITableView!
     
+    
+ 
     struct Icon {
         let title: String
         let imageName: String
@@ -46,7 +51,9 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
+    
 
+   
     /*
     // MARK: - Navigation
 
