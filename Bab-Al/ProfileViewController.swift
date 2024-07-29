@@ -53,15 +53,24 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
 
-   
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedIcon = data[indexPath.row]
+            
+        if selectedIcon.title == "Logout" {
+            logout()
+        }
     }
-    */
+        
+    func logout() {
+        // Clear user data
+        UserInfoManager.shared.clearAuthToken()
+        UserInfoManager.shared.userInfo = UserInfo() // Reset user info
+
+        // Navigate to login screen
+        if let loginViewController = storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController {
+            view.window?.rootViewController = loginViewController
+            view.window?.makeKeyAndVisible()
+        }
+    }
 
 }

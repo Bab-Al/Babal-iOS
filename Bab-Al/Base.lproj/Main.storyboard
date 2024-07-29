@@ -685,7 +685,7 @@
         <!--Login View Controller-->
         <scene sceneID="nkZ-ca-r8j">
             <objects>
-                <viewController id="VEh-lJ-ShU" customClass="LoginViewController" customModule="Bab_Al" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" id="VEh-lJ-ShU" customClass="LoginViewController" customModule="Bab_Al" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="L8q-HE-b6m">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
