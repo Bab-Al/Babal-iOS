@@ -1,0 +1,6 @@
+framework module Pods_Bab_Al {
+  umbrella header "Pods-Bab-Al-umbrella.h"
+
+  export *
+  module * { export * }
+}

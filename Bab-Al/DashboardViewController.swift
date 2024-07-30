@@ -6,12 +6,18 @@
 //
 
 import UIKit
+import FSCalendar
 
-class DashboardViewController: UIViewController {
+class DashboardViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSource {
 
+    @IBOutlet weak var CalendarButton: UIButton!
+    @IBOutlet weak var WeeklyCalendarView: FSCalendar!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        WeeklyCalendarView.dataSource = self
+        WeeklyCalendarView.delegate = self
+        WeeklyCalendarView.scope = .week
     }
     
 //    @IBAction func logoutClicked(_ sender: UIButton) {
@@ -35,5 +41,9 @@ class DashboardViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    
+    @IBAction func CalendarClicked(_ sender: UIButton) {
+        print("Calendar Button clicked")
+    }
+    
 }
