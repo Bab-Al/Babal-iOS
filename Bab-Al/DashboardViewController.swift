@@ -8,42 +8,59 @@
 import UIKit
 import FSCalendar
 
-class DashboardViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSource {
+class DashboardViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSource, CalendarDelegate {
 
-    @IBOutlet weak var CalendarButton: UIButton!
-    @IBOutlet weak var WeeklyCalendarView: FSCalendar!
+    @IBOutlet weak var calendarButton: UIButton!
+    @IBOutlet weak var weeklyCalendarView: FSCalendar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        WeeklyCalendarView.dataSource = self
-        WeeklyCalendarView.delegate = self
-        WeeklyCalendarView.scope = .week
+        
+        weeklyCalendarView.dataSource = self
+        weeklyCalendarView.delegate = self
+        weeklyCalendarView.scope = .week
     }
     
-//    @IBAction func logoutClicked(_ sender: UIButton) {
-//        UserInfoManager.shared.logout()
-//        print("Logout successful")
-//        
-//        self.performSegue(withIdentifier: "goToLogin", sender: self)
-//    }
     
     private func configureItems() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .add, target: self, action: nil)
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     @IBAction func CalendarClicked(_ sender: UIButton) {
         print("Calendar Button clicked")
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let monthlyCalendarVC = storyboard.instantiateViewController(withIdentifier: "MonthlyCalendarViewController") as? MonthlyCalendarViewController {
+            monthlyCalendarVC.modalPresentationStyle = .popover
+            monthlyCalendarVC.popoverPresentationController?.sourceView = sender
+            monthlyCalendarVC.popoverPresentationController?.sourceRect = sender.bounds
+            monthlyCalendarVC.delegate = self // Set the delegate
+            present(monthlyCalendarVC, animated: true, completion: nil)
+        }
     }
     
+    // CalendarDelegate method
+    func didSelectDate(_ date: Date) {
+        weeklyCalendarView.setCurrentPage(date, animated: true)
+        weeklyCalendarView.select(date)
+    }
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "showMonthlyCalendar" {
+//            if let monthlyCalendarVC = segue.destination as? MonthlyCalendarViewController {
+//                monthlyCalendarVC.delegate = self
+//                if let popoverPresentationController = monthlyCalendarVC.popoverPresentationController {
+//                    popoverPresentationController.sourceView = calendarButton
+//                    popoverPresentationController.sourceRect = calendarButton.bounds
+//                }
+//            }
+//        }
+//    }
+    
+}
+
+protocol CalendarDelegate: AnyObject {
+    func didSelectDate(_ date: Date)
 }
