@@ -254,10 +254,105 @@ extension DashboardViewController: UIImagePickerControllerDelegate, UINavigation
         
         picker.dismiss(animated: true, completion: nil)
         
+        // Example data to send along with the image
+        let mealtime: String
+        let foodName: String = "Sample Food"
+        let carbohydrate: Int = 30
+        let protein: Int = 10
+        let fat: Int = 5
+        let date = Date() // Or use any specific date
+                
+        if selectedImageView == breakfastImageView {
+            mealtime = "BREAKFAST"
+        } else if selectedImageView == lunchImageView {
+            mealtime = "LUNCH"
+        } else {
+            mealtime = "DINNER"
+        }
+        
+        // Upload the image along with the other data and the formatted date
+        uploadImage(selectedImage, for: mealtime, date: date, foodName: foodName, carbohydrate: carbohydrate, protein: protein, fat: fat)
     }
         
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
+    }
+    
+    
+    func uploadImage(_ image: UIImage, for mealtime: String, date: Date, foodName: String, carbohydrate: Int, protein: Int, fat: Int) {
+        guard let url = URL(string: "http://hongik-babal.ap-northeast-2.elasticbeanstalk.com/main/history") else { return }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("Bearer \(String(describing: UserInfoManager.shared.getAuthToken()))", forHTTPHeaderField: "Authorization")
+        
+        // Convert image to JPEG data
+        guard let imageData = image.jpegData(compressionQuality: 0.9) else { return }
+        
+        // Format the date
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let dateString = dateFormatter.string(from: date)
+        
+        // Create a unique boundary for the multipart form data
+        let boundary = UUID().uuidString
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        var body = Data()
+        
+        // Append mealtime field
+        body.append("--\(boundary)\r\n".data(using: .utf8)!)
+        body.append("Content-Disposition: form-data; name=\"mealtime\"\r\n\r\n".data(using: .utf8)!)
+        body.append("\(mealtime)\r\n".data(using: .utf8)!)
+        
+        // Append carbohydrate field
+        body.append("--\(boundary)\r\n".data(using: .utf8)!)
+        body.append("Content-Disposition: form-data; name=\"carbohydrate\"\r\n\r\n".data(using: .utf8)!)
+        body.append("\(carbohydrate)\r\n".data(using: .utf8)!)
+        
+        // Append protein field
+        body.append("--\(boundary)\r\n".data(using: .utf8)!)
+        body.append("Content-Disposition: form-data; name=\"protein\"\r\n\r\n".data(using: .utf8)!)
+        body.append("\(protein)\r\n".data(using: .utf8)!)
+        
+        // Append fat field
+        body.append("--\(boundary)\r\n".data(using: .utf8)!)
+        body.append("Content-Disposition: form-data; name=\"fat\"\r\n\r\n".data(using: .utf8)!)
+        body.append("\(fat)\r\n".data(using: .utf8)!)
+        
+        // Append foodName field
+        body.append("--\(boundary)\r\n".data(using: .utf8)!)
+        body.append("Content-Disposition: form-data; name=\"foodName\"\r\n\r\n".data(using: .utf8)!)
+        body.append("\(foodName)\r\n".data(using: .utf8)!)
+        
+        // Append image file
+        body.append("--\(boundary)\r\n".data(using: .utf8)!)
+        body.append("Content-Disposition: form-data; name=\"foodImage\"; filename=\"\(dateString)_\(mealtime).jpg\"\r\n".data(using: .utf8)!)
+        body.append("Content-Type: image/jpeg\r\n\r\n".data(using: .utf8)!)
+        body.append(imageData)
+        body.append("\r\n".data(using: .utf8)!)
+        
+        // End the multipart form data
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        
+        request.httpBody = body
+        
+        // Create a data task to send the POST request
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Error uploading image: \(error)")
+                return
+            }
+            
+            // Handle the response here
+            if let response = response as? HTTPURLResponse, response.statusCode == 200 {
+                print("Image and data uploaded successfully")
+            } else {
+                print("Failed to upload image and data")
+            }
+        }
+        
+        task.resume()
     }
 }
 
