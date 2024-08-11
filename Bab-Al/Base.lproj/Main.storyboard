@@ -373,7 +373,7 @@
                                 <buttonConfiguration key="configuration" style="tinted" title="Nearly no activity"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HNR-Zw-Mag">
-                                <rect key="frame" x="133" y="550" width="127" height="35"/>
+                                <rect key="frame" x="133" y="612" width="127" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Next"/>
@@ -382,12 +382,19 @@
                                     <segue destination="U5t-Od-qKH" kind="show" id="ITJ-bn-Ebw"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6aO-7S-uCo">
+                                <rect key="frame" x="84" y="522" width="231" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="tinted" title="Extra Active"/>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="3zN-yZ-Yse"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="kVz-Lp-3Iq"/>
                     <connections>
+                        <outlet property="levelFiveButton" destination="6aO-7S-uCo" id="P3T-w8-D4E"/>
                         <outlet property="levelFourButton" destination="qGx-x5-zCK" id="dKU-aK-NAQ"/>
                         <outlet property="levelOneButton" destination="dK1-fC-X8a" id="0ww-x4-Iat"/>
                         <outlet property="levelThreeButton" destination="yp1-Fq-0fZ" id="mdJ-dv-0eE"/>
@@ -1174,7 +1181,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="ylF-Se-0HL"/>
+        <segue reference="Tf4-9S-fir"/>
         <segue reference="V0K-ce-KNC"/>
     </inferredMetricsTieBreakers>
     <resources>

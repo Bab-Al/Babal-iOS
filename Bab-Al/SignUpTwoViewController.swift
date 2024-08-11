@@ -15,6 +15,7 @@ class SignUpTwoViewController: UIViewController {
     @IBOutlet weak var levelTwoButton: UIButton!
     @IBOutlet weak var levelThreeButton: UIButton!
     @IBOutlet weak var levelFourButton: UIButton!
+    @IBOutlet weak var levelFiveButton: UIButton!
     
     @IBOutlet weak var nextButton: UIButton!
     
@@ -28,6 +29,7 @@ class SignUpTwoViewController: UIViewController {
         levelTwoButton.addTarget(self, action: #selector(optionButtonTapped(_:)), for: .touchUpInside)
         levelThreeButton.addTarget(self, action: #selector(optionButtonTapped(_:)), for: .touchUpInside)
         levelFourButton.addTarget(self, action: #selector(optionButtonTapped(_:)), for: .touchUpInside)
+        levelFiveButton.addTarget(self, action: #selector(optionButtonTapped(_:)), for: .touchUpInside)
         
         // Disable nextButton initially
         nextButton.isEnabled = false
@@ -36,7 +38,7 @@ class SignUpTwoViewController: UIViewController {
     // Action method for handling button taps
     @objc func optionButtonTapped(_ sender: UIButton) {
         // Get the index of the tapped button
-        guard let index = [levelOneButton, levelTwoButton, levelThreeButton, levelFourButton].firstIndex(of: sender) else {
+        guard let index = [levelOneButton, levelTwoButton, levelThreeButton, levelFourButton, levelFiveButton].firstIndex(of: sender) else {
                 return // Button not found in the array
         }
             
@@ -44,7 +46,7 @@ class SignUpTwoViewController: UIViewController {
         UserInfoManager.shared.userInfo.activity = index
             
         // Update button states
-        [levelOneButton, levelTwoButton, levelThreeButton, levelFourButton].forEach { $0.isSelected = false }
+        [levelOneButton, levelTwoButton, levelThreeButton, levelFourButton, levelFiveButton].forEach { $0.isSelected = false }
         
         // Select the tapped button
         sender.isSelected = true
