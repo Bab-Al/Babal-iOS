@@ -12,6 +12,8 @@ import Alamofire
 
 class DashboardViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSource, CalendarDelegate {
 
+    @IBOutlet weak var statsButton: UIButton!
+    
     @IBOutlet weak var calendarButton: UIButton!
     @IBOutlet weak var weeklyCalendarView: FSCalendar!
     
@@ -51,6 +53,8 @@ class DashboardViewController: UIViewController, FSCalendarDelegate, FSCalendarD
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationItem.hidesBackButton = true
+        
         weeklyCalendarView.dataSource = self
         weeklyCalendarView.delegate = self
         weeklyCalendarView.scope = .week
@@ -58,7 +62,7 @@ class DashboardViewController: UIViewController, FSCalendarDelegate, FSCalendarD
         configureMealViews()
     }
     
-    func configureMealViews() {
+    func configureMealViews() {        
         breakfastView.layer.cornerRadius = 10
         lunchView.layer.cornerRadius = 10
         dinnerView.layer.cornerRadius = 10
@@ -68,6 +72,10 @@ class DashboardViewController: UIViewController, FSCalendarDelegate, FSCalendarD
     private func configureItems() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .add, target: self, action: nil)
+    }
+    
+    
+    @IBAction func StatsClicked(_ sender: UIButton) {
     }
     
     

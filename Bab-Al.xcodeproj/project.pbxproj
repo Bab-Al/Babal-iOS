@@ -22,6 +22,7 @@
 		024B81492BDD5ADE00511DD0 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024B81482BDD5ADE00511DD0 /* LoginViewController.swift */; };
 		027FE2A12BDD723200007C2B /* SignUpOneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027FE2A02BDD723200007C2B /* SignUpOneViewController.swift */; };
 		0285C55E2C58C87D0024FED2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 024B81382BDD569600511DD0 /* Main.storyboard */; };
+		029AC7412C69E772004AFE5D /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029AC7402C69E772004AFE5D /* StatisticsViewController.swift */; };
 		02CFC6622BE0D609006F49AE /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CFC6612BE0D609006F49AE /* ProfileViewController.swift */; };
 		B92E5112EC8E9A975F2197B3 /* Pods_Bab_Al.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C889A8F163EA8DB9BA483B70 /* Pods_Bab_Al.framework */; };
 /* End PBXBuildFile section */
@@ -44,6 +45,7 @@
 		024B81462BDD59AF00511DD0 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		024B81482BDD5ADE00511DD0 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		027FE2A02BDD723200007C2B /* SignUpOneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpOneViewController.swift; sourceTree = "<group>"; };
+		029AC7402C69E772004AFE5D /* StatisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
 		02CFC6612BE0D609006F49AE /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		7014B379E1B43B88A9927027 /* Pods-Bab-Al.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bab-Al.debug.xcconfig"; path = "Target Support Files/Pods-Bab-Al/Pods-Bab-Al.debug.xcconfig"; sourceTree = "<group>"; };
 		89923E193A419AE2CDC9145D /* Pods-Bab-Al.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bab-Al.release.xcconfig"; path = "Target Support Files/Pods-Bab-Al/Pods-Bab-Al.release.xcconfig"; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 				024B81402BDD569800511DD0 /* Info.plist */,
 				020F3EAC2BEC9D2C008C1381 /* CustomTableViewCell.swift */,
 				023AB1A62C5A265B008193EC /* MonthlyCalendarViewController.swift */,
+				029AC7402C69E772004AFE5D /* StatisticsViewController.swift */,
 			);
 			path = "Bab-Al";
 			sourceTree = "<group>";
@@ -254,6 +257,7 @@
 				021E7E5A2BDEBB1300760500 /* DashboardViewController.swift in Sources */,
 				021E7E512BDD843C00760500 /* SignUpThreeViewController.swift in Sources */,
 				021E7E532BDE26C000760500 /* UserInfoManager.swift in Sources */,
+				029AC7412C69E772004AFE5D /* StatisticsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
