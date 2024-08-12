@@ -8,6 +8,7 @@
 import UIKit
 import FSCalendar
 import Foundation
+import Alamofire
 
 class DashboardViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSource, CalendarDelegate {
 
@@ -22,6 +23,11 @@ class DashboardViewController: UIViewController, FSCalendarDelegate, FSCalendarD
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var stackView: UIStackView!
+    
+    @IBOutlet weak var breakfastView: UIView!
+    @IBOutlet weak var lunchView: UIView!
+    @IBOutlet weak var dinnerView: UIView!
+    
     
     @IBOutlet weak var breakfastImageView: UIImageView!
     @IBOutlet weak var breakfastNameLabel: UILabel!
@@ -38,6 +44,7 @@ class DashboardViewController: UIViewController, FSCalendarDelegate, FSCalendarD
     @IBOutlet weak var dinnerKcalLabel: UILabel!
     @IBOutlet weak var dinnerUploadButton: UIButton!
     
+    
     var selectedImageView: UIImageView?
     var selectedUploadButton: UIButton?
     
@@ -47,6 +54,14 @@ class DashboardViewController: UIViewController, FSCalendarDelegate, FSCalendarD
         weeklyCalendarView.dataSource = self
         weeklyCalendarView.delegate = self
         weeklyCalendarView.scope = .week
+                
+        configureMealViews()
+    }
+    
+    func configureMealViews() {
+        breakfastView.layer.cornerRadius = 10
+        lunchView.layer.cornerRadius = 10
+        dinnerView.layer.cornerRadius = 10
     }
     
     
@@ -69,20 +84,24 @@ class DashboardViewController: UIViewController, FSCalendarDelegate, FSCalendarD
         }
     }
     
-    @IBAction func uploadBreakfastImage(_ sender: UIButton) {
-        presentImagePicker(for: breakfastImageView, uploadButton: breakfastUploadButton)
-    }
-    @IBAction func uploadLunchImage(_ sender: UIButton) {
-        presentImagePicker(for: lunchImageView, uploadButton: lunchUploadButton)
-    }
-    @IBAction func uploadDinnerImage(_ sender: UIButton) {
-        presentImagePicker(for: dinnerImageView, uploadButton: dinnerUploadButton)
-    }
-    
     // CalendarDelegate method
     func didSelectDate(_ date: Date) {
         weeklyCalendarView.setCurrentPage(date, animated: true)
         weeklyCalendarView.select(date)
+    }
+    
+    // FSCalendar delegate method
+    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        fetchData(for: date)
+    }
+    
+    @IBAction func uploadBreakfastImage(_ sender: UIButton) {
+    }
+    
+    @IBAction func uploadLunchImage(_ sender: UIButton) {
+    }
+
+    @IBAction func uploadDinnerImage(_ sender: UIButton) {
     }
     
     func presentImagePicker(for imageView: UIImageView, uploadButton: UIButton) {
@@ -97,19 +116,15 @@ class DashboardViewController: UIViewController, FSCalendarDelegate, FSCalendarD
         present(imagePicker, animated: true, completion: nil)
     }
     
-
-    
-    // FSCalendar delegate method
-    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        fetchData(for: date)
-    }
 }
 
 protocol CalendarDelegate: AnyObject {
     func didSelectDate(_ date: Date)
 }
 
+
 extension DashboardViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
     func fetchData(for date: Date) {
         // Format the date as a string in the format required by API
         let dateFormatter = DateFormatter()
@@ -118,116 +133,70 @@ extension DashboardViewController: UIImagePickerControllerDelegate, UINavigation
         
         // Construct the URL with the date
         let urlString = "http://hongik-babal.ap-northeast-2.elasticbeanstalk.com/main/history?date=\(dateString)"
-        guard let url = URL(string: urlString) else { return }
-        
-        // Create a URLRequest and set the HTTP method to GET
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
         
         // Retrieve the token from UserInfoManager
-        let token = UserInfoManager.shared.getAuthToken()
-        
-        request.setValue("Bearer \(String(describing: token))", forHTTPHeaderField: "Authorization")
-        
-        // Create the GET request
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                print("Error fetching data: \(error)")
-                return
-            }
-            
-            guard let data = data else { return }
-            
-            do {
-                // Parse JSON
-                let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-                // Update the UI on the main thread
-                DispatchQueue.main.async {
-                    self.updateUI(with: json)
+        let token = UserInfoManager.shared.token
+        print("Token sending: \(String(describing: token))")
+                
+        // Alamofire GET request
+        AF.request(urlString, method: .get, headers: ["Authorization": "Bearer \(String(describing: token))", "accept":"application/json"])
+            .validate(statusCode: 200..<300) // Validates the response
+            .responseDecodable(of: ResponseData.self) { response in
+                switch response.result {
+                case .success(let data):
+                    print("Received decoded data: \(data)")
+                    
+                    // Update the UI on the main thread
+                    DispatchQueue.main.async {
+                        self.updateUI(with: data.result)
+                    }
+                    
+                case .failure(let error):
+                    print("Error fetching data: \(error.localizedDescription)")
                 }
-            } catch {
-                print("Error parsing JSON: \(error)")
             }
-        }
-        task.resume()
     }
     
-    func updateUI(with data: [String: Any]?) {
+    func updateUI(with data: MealData?) {
         guard let data = data else {
-            // Handle the case where data is nil (placeholders or error messages)
+            // Handle the case where data is nil
+            self.userTotalKcalLabel.text = "no..."
+            self.userNowKcalLabel.text = "no..."
+            self.userCarboLabel.text = "no..."
+            self.userProteinLabel.text = "no..."
+            self.userFatLabel.text = "no..."
+            
+            self.breakfastNameLabel.text = "no..."
+            self.breakfastKcalLabel.text = "no..."
+                    
+            self.lunchNameLabel.text = "no..."
+            self.lunchKcalLabel.text = "no..."
+                    
+            self.dinnerNameLabel.text = "no..."
+            self.dinnerKcalLabel.text = "no..."
+            
             return
         }
         
-        // Update UILabels
-        if let userTotalKcal = data["userTotalKcal"] as? Int {
-            self.userTotalKcalLabel.text = "\(userTotalKcal)"
-        }
-            
-        if let userNowKcal = data["userNowKcal"] as? Int {
-            self.userNowKcalLabel.text = "\(userNowKcal)"
-        }
-            
-        if let userCarbo = data["userCarbo"] as? Int {
-            self.userCarboLabel.text = "\(userCarbo)g"
-        }
-            
-        if let userProtein = data["userProtein"] as? Int {
-            self.userProteinLabel.text = "\(userProtein)g"
-        }
-            
-        if let userFat = data["userFat"] as? Int {
-            self.userFatLabel.text = "\(userFat)g"
-        }
-            
-        // Update views
-        if let breakfastName = data["breakfastName"] as? String {
-            self.breakfastNameLabel.text = breakfastName
-        }
-            
-        if let breakfastKcal = data["breakfastKcal"] as? Int {
-            self.breakfastKcalLabel.text = "\(breakfastKcal) kcal"
-        }
-            
-        if let breakfastImage = data["breakfastImage"] as? String, !breakfastImage.isEmpty {
-            self.updateImageView(self.breakfastImageView, with: breakfastImage)
-            self.breakfastUploadButton.isHidden = true
-        } else {
-            self.breakfastImageView.image = nil
-            self.breakfastUploadButton.isHidden = false
-        }
-            
-        if let lunchName = data["lunchName"] as? String {
-            self.lunchNameLabel.text = lunchName
-        }
-            
-        if let lunchKcal = data["lunchKcal"] as? Int {
-            self.lunchKcalLabel.text = "\(lunchKcal) kcal"
-        }
-            
-        if let lunchImage = data["lunchImage"] as? String, !lunchImage.isEmpty {
-            self.updateImageView(self.lunchImageView, with: lunchImage)
-            self.lunchUploadButton.isHidden = true
-        } else {
-            self.lunchImageView.image = nil
-            self.lunchUploadButton.isHidden = false
-        }
-            
-        if let dinnerName = data["dinnerName"] as? String {
-            self.dinnerNameLabel.text = dinnerName
-        }
-            
-        if let dinnerKcal = data["dinnerKcal"] as? Int {
-            self.dinnerKcalLabel.text = "\(dinnerKcal) kcal"
-        }
-            
-        if let dinnerImage = data["dinnerImage"] as? String, !dinnerImage.isEmpty {
-            self.updateImageView(self.dinnerImageView, with: dinnerImage)
-            self.dinnerUploadButton.isHidden = true
-        } else {
-            self.dinnerImageView.image = nil
-            self.dinnerUploadButton.isHidden = false
-        }
+        // Update UILabels with the data or "..." if the value is nil
+        self.userTotalKcalLabel.text = data.userTotalKcal.map { "\($0)" } ?? "..."
+        self.userNowKcalLabel.text = data.userNowKcal.map { "\($0)" } ?? "..."
+        self.userCarboLabel.text = data.userCarbo.map { "\($0)g" } ?? "..."
+        self.userProteinLabel.text = data.userProtein.map { "\($0)g" } ?? "..."
+        self.userFatLabel.text = data.userFat.map { "\($0)g" } ?? "..."
+        
+        self.breakfastNameLabel.text = data.breakfastName?.isEmpty == false ? data.breakfastName : "..."
+        self.breakfastKcalLabel.text = data.breakfastKcal.map { "\($0) kcal" } ?? "..."
+        
+        self.lunchNameLabel.text = data.lunchName?.isEmpty == false ? data.lunchName : "..."
+        self.lunchKcalLabel.text = data.lunchKcal.map { "\($0) kcal" } ?? "..."
+        
+        self.dinnerNameLabel.text = data.dinnerName?.isEmpty == false ? data.dinnerName : "..."
+        self.dinnerKcalLabel.text = data.dinnerKcal.map { "\($0) kcal" } ?? "..."
+        
     }
+    
+    
     
     func updateImageView(_ imageView: UIImageView, with urlString: String) {
         // Load the image asynchronously
@@ -262,16 +231,16 @@ extension DashboardViewController: UIImagePickerControllerDelegate, UINavigation
         let fat: Int = 5
         let date = Date() // Or use any specific date
                 
-        if selectedImageView == breakfastImageView {
-            mealtime = "BREAKFAST"
-        } else if selectedImageView == lunchImageView {
-            mealtime = "LUNCH"
-        } else {
-            mealtime = "DINNER"
-        }
+//        if selectedImageView == breakfastImageView {
+//            mealtime = "BREAKFAST"
+//        } else if selectedImageView == lunchImageView {
+//            mealtime = "LUNCH"
+//        } else {
+//            mealtime = "DINNER"
+//        }
         
         // Upload the image along with the other data and the formatted date
-        uploadImage(selectedImage, for: mealtime, date: date, foodName: foodName, carbohydrate: carbohydrate, protein: protein, fat: fat)
+//        uploadImage(selectedImage, for: mealtime, date: date, foodName: foodName, carbohydrate: carbohydrate, protein: protein, fat: fat)
     }
         
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -356,3 +325,21 @@ extension DashboardViewController: UIImagePickerControllerDelegate, UINavigation
     }
 }
 
+// Define the struct matching your JSON structure
+struct MealData: Decodable {
+    let userTotalKcal: Int?
+    let userNowKcal: Int?
+    let userCarbo: Int?
+    let userProtein: Int?
+    let userFat: Int?
+    let breakfastName: String?
+    let breakfastKcal: Int?
+    let lunchName: String?
+    let lunchKcal: Int?
+    let dinnerName: String?
+    let dinnerKcal: Int?
+}
+
+struct ResponseData: Decodable {
+    let result: MealData?
+}
