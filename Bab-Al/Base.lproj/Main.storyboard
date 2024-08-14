@@ -431,7 +431,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BOi-sl-Ngf" userLabel="weekly Calendar View" customClass="FSCalendar">
-                                <rect key="frame" x="0.0" y="142" width="393" height="88"/>
+                                <rect key="frame" x="0.0" y="142" width="393" height="131"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.73850136995315552" green="0.93862050771713257" blue="0.8878670334815979" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
@@ -748,14 +748,145 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="통계" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ce1-Z1-5em">
-                                <rect key="frame" x="78" y="110" width="30" height="21"/>
+                                <rect key="frame" x="78.333333333333329" y="110.66666666666667" width="29.666666666666671" height="20.333333333333329"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bpi-cQ-kZH">
+                                <rect key="frame" x="100" y="141" width="53" height="34.333333333333343"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="◀️"/>
+                                <connections>
+                                    <action selector="previousWeekButtonClicked:" destination="wxN-0o-ode" eventType="touchUpInside" id="38e-PQ-d6o"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p0j-QG-srh">
+                                <rect key="frame" x="245.33333333333334" y="141" width="52.666666666666657" height="34.333333333333343"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="▶️"/>
+                                <connections>
+                                    <action selector="nextWeekButtonClicked:" destination="wxN-0o-ode" eventType="touchUpInside" id="lrZ-hI-qMM"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="weekLabel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1cx-hO-hyO">
+                                <rect key="frame" x="156" y="147" width="81.333333333333314" height="20.333333333333343"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yjw-rA-fCf">
+                                <rect key="frame" x="0.0" y="197" width="393" height="621"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="tZv-q3-Uwh">
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="920"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rPo-qP-0Hm">
+                                                <rect key="frame" x="8" y="8" width="377" height="220"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Carbohydrate" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cI4-pW-flE">
+                                                        <rect key="frame" x="25" y="8" width="104" height="21"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AIk-2k-wmf" customClass="LineChartView" customModule="Charts">
+                                                        <rect key="frame" x="17" y="37" width="342" height="166"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    </view>
+                                                </subviews>
+                                                <color key="backgroundColor" red="0.77238672971725464" green="0.94501692056655884" blue="0.91500967741012573" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="220" id="y2H-PC-7Pt"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dc2-sD-Kaw">
+                                                <rect key="frame" x="8" y="236" width="377" height="220"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Protein" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UOM-Fb-m2d">
+                                                        <rect key="frame" x="25" y="8" width="54" height="21"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XYe-aw-9WP" customClass="LineChartView" customModule="Charts">
+                                                        <rect key="frame" x="17" y="37" width="342" height="166"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    </view>
+                                                </subviews>
+                                                <color key="backgroundColor" red="0.77238672971725464" green="0.94501692056655884" blue="0.91500967741012573" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="220" id="Adh-49-mvb"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yks-WI-VvM">
+                                                <rect key="frame" x="8" y="464" width="377" height="220"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Fat" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nIM-Eo-PSf">
+                                                        <rect key="frame" x="25" y="8" width="24" height="21"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MGb-fr-N66" customClass="LineChartView" customModule="Charts">
+                                                        <rect key="frame" x="17" y="37" width="342" height="166"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    </view>
+                                                </subviews>
+                                                <color key="backgroundColor" red="0.77238672971725464" green="0.94501692056655884" blue="0.91500967741012573" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="220" id="m5A-VZ-KhF"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3OR-dk-kWD">
+                                                <rect key="frame" x="8" y="692" width="377" height="220"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Kcal" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PGB-JG-VEu">
+                                                        <rect key="frame" x="25" y="8" width="32" height="21"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZJH-n4-Kyr" customClass="LineChartView" customModule="Charts">
+                                                        <rect key="frame" x="17" y="37" width="342" height="166"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    </view>
+                                                </subviews>
+                                                <color key="backgroundColor" red="0.77238672971725464" green="0.94501692056655884" blue="0.91500967741012573" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="220" id="M6c-TO-CbK"/>
+                                                </constraints>
+                                            </view>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.72275093469999996" green="0.83137255909999996" blue="0.78970211079999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="tZv-q3-Uwh" firstAttribute="bottom" secondItem="B2J-Cg-u2v" secondAttribute="bottom" id="0AJ-Jo-yDv"/>
+                                    <constraint firstItem="tZv-q3-Uwh" firstAttribute="width" secondItem="feo-2M-WNf" secondAttribute="width" id="Yt9-QF-MOd"/>
+                                    <constraint firstItem="tZv-q3-Uwh" firstAttribute="leading" secondItem="B2J-Cg-u2v" secondAttribute="leading" id="bAh-he-DV0"/>
+                                    <constraint firstItem="tZv-q3-Uwh" firstAttribute="top" secondItem="B2J-Cg-u2v" secondAttribute="top" id="k5P-qe-rLd"/>
+                                    <constraint firstItem="tZv-q3-Uwh" firstAttribute="trailing" secondItem="B2J-Cg-u2v" secondAttribute="trailing" id="rVd-gv-Jww"/>
+                                </constraints>
+                                <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
+                                <viewLayoutGuide key="contentLayoutGuide" id="B2J-Cg-u2v"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="feo-2M-WNf"/>
+                            </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LAj-6T-xdf">
-                                <rect key="frame" x="16" y="103" width="54" height="35"/>
+                                <rect key="frame" x="15.999999999999996" y="103.66666666666667" width="53.666666666666657" height="34.333333333333329"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="기록">
@@ -765,34 +896,15 @@
                                     <action selector="DashboardButtonClicked:" destination="wxN-0o-ode" eventType="touchUpInside" id="Vph-SI-7yn"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="weekLabel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1cx-hO-hyO">
-                                <rect key="frame" x="150" y="147" width="93" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bpi-cQ-kZH">
-                                <rect key="frame" x="100" y="141" width="47" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="◀️"/>
-                                <connections>
-                                    <action selector="previousWeekButtonClicked:" destination="wxN-0o-ode" eventType="touchUpInside" id="38e-PQ-d6o"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p0j-QG-srh">
-                                <rect key="frame" x="251" y="141" width="47" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="▶️"/>
-                                <connections>
-                                    <action selector="nextWeekButtonClicked:" destination="wxN-0o-ode" eventType="touchUpInside" id="lrZ-hI-qMM"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Ml6-uE-5W6"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="yjw-rA-fCf" firstAttribute="trailing" secondItem="Ml6-uE-5W6" secondAttribute="trailing" id="I7r-YG-53e"/>
+                            <constraint firstItem="yjw-rA-fCf" firstAttribute="bottom" secondItem="Ml6-uE-5W6" secondAttribute="bottom" id="JN4-3g-RtT"/>
+                            <constraint firstItem="yjw-rA-fCf" firstAttribute="leading" secondItem="Ml6-uE-5W6" secondAttribute="leading" id="bVk-Xx-zc0"/>
+                            <constraint firstItem="yjw-rA-fCf" firstAttribute="top" secondItem="CMW-e4-5WC" secondAttribute="top" constant="197" id="jrS-uO-mFR"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="PxY-xt-gnD"/>
                     <connections>

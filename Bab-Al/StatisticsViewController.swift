@@ -7,6 +7,9 @@
 
 import UIKit
 import FSCalendar
+import Foundation
+import Alamofire
+import Charts
 
 class StatisticsViewController: UIViewController {
 
@@ -14,7 +17,10 @@ class StatisticsViewController: UIViewController {
     
     @IBOutlet weak var weekLabel: UILabel!
     
+    
     var currentWeekStartDate: Date = Date()
+    var currentWeekEndDate: Date = Date()
+    var token: String = UserInfoManager.shared.token ?? "n"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +28,7 @@ class StatisticsViewController: UIViewController {
         self.navigationItem.hidesBackButton = true
         currentWeekStartDate = getStartOfWeek(date: Date()) // Set to current week's Monday
         updateWeekLabel()
+        fetchWeekData()
     }
     
     @IBAction func DashboardButtonClicked(_ sender: UIButton) {
@@ -60,5 +67,51 @@ class StatisticsViewController: UIViewController {
         
         weekLabel.text = "\(startOfWeekString) - \(endOfWeekString)"
     }
+    
+    func fetchWeekData() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        let startDateString = dateFormatter.string(from: currentWeekStartDate)
+        let endDateString = dateFormatter.string(from: currentWeekEndDate)
+        
+        let url = "http://hongik-babal.ap-northeast-2.elasticbeanstalk.com/main/statistics"
+        
+        let parameters: [String: String] = [
+            "startDate": startDateString,
+            "endDate": endDateString
+        ]
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(token)"
+        ]
+        
+        AF.request(url, parameters: parameters, headers: headers).responseDecodable(of: StatisticsResponse.self) { response in
+            switch response.result {
+            case .success(let statisticsResponse):
+                DispatchQueue.main.async {
+                    self.updateGraphs(with: statisticsResponse.data)
+                }
+            case .failure(let error):
+                print("Error fetching data: \(error)")
+            }
+        }
+        
+    }
+    
+    func updateGraphs(with data: [DayStatistics]) {
+        // Update your charts here
+    }
+}
 
+struct DayStatistics: Codable {
+    let date: String
+    let carbohydrate: Int
+    let protein: Int
+    let fat: Int
+    let kcal: Int
+}
+
+struct StatisticsResponse: Codable {
+    let data: [DayStatistics]
 }

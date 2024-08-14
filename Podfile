@@ -8,6 +8,7 @@ target 'Bab-Al' do
   # Pods for Bab-Al
   pod 'FSCalendar'
   pod 'Alamofire', '~> 5.9'
+  pod 'Charts'
 end
 
 post_install do |installer|
