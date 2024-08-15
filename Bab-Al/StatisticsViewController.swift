@@ -17,10 +17,16 @@ class StatisticsViewController: UIViewController {
     
     @IBOutlet weak var weekLabel: UILabel!
     
+    @IBOutlet weak var carbohydrateChartView: LineChartView!
+    @IBOutlet weak var proteinChartView: LineChartView!
+    @IBOutlet weak var fatChartView: LineChartView!
+    @IBOutlet weak var kcalChartView: LineChartView!
     
     var currentWeekStartDate: Date = Date()
     var currentWeekEndDate: Date = Date()
-    var token: String = UserInfoManager.shared.token ?? "n"
+//    var token: String = UserInfoManager.shared.token ?? "n"
+    let token = UserInfoManager.shared.token!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,26 +88,55 @@ class StatisticsViewController: UIViewController {
             "endDate": endDateString
         ]
         
+        print(startDateString)
+        print(endDateString)
+        
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(token)"
         ]
         
-        AF.request(url, parameters: parameters, headers: headers).responseDecodable(of: StatisticsResponse.self) { response in
-            switch response.result {
-            case .success(let statisticsResponse):
-                DispatchQueue.main.async {
-                    self.updateGraphs(with: statisticsResponse.data)
+        AF.request(url, method: .get, parameters: parameters, headers: headers)
+            .validate(statusCode: 200..<300)
+            .responseDecodable(of: StatisticsResponse.self) { response in
+                switch response.result {
+                case .success(let statisticsResponse):
+                    if statisticsResponse.isSuccess {
+                        DispatchQueue.main.async {
+                            self.updateGraphs(with: statisticsResponse.result.data)
+                        }
+                    } else {
+                        print("Request failed with message: \(statisticsResponse.message)")
+                    }
+                case .failure(let error):
+                    print("Error fetching data: \(error)")
                 }
-            case .failure(let error):
-                print("Error fetching data: \(error)")
             }
-        }
         
     }
     
     func updateGraphs(with data: [DayStatistics]) {
-        // Update your charts here
+        let dates = data.map { $0.date }
+        
+        let carbohydrateValues = data.map { ChartDataEntry(x: Double(dates.firstIndex(of: $0.date) ?? 0), y: Double($0.carbohydrate)) }
+        let proteinValues = data.map { ChartDataEntry(x: Double(dates.firstIndex(of: $0.date) ?? 0), y: Double($0.protein)) }
+        let fatValues = data.map { ChartDataEntry(x: Double(dates.firstIndex(of: $0.date) ?? 0), y: Double($0.fat)) }
+        let kcalValues = data.map { ChartDataEntry(x: Double(dates.firstIndex(of: $0.date) ?? 0), y: Double($0.kcal)) }
+        
+        updateChart(carbohydrateChartView, with: carbohydrateValues, label: "Carbohydrate")
+        updateChart(proteinChartView, with: proteinValues, label: "Protein")
+        updateChart(fatChartView, with: fatValues, label: "Fat")
+        updateChart(kcalChartView, with: kcalValues, label: "Kcal")
     }
+    
+    func updateChart(_ chartView: LineChartView, with dataEntries: [ChartDataEntry], label: String) {
+        let dataSet = LineChartDataSet(entries: dataEntries, label: label)
+        dataSet.colors = [NSUIColor.blue]
+        dataSet.circleColors = [NSUIColor.blue]
+        let data = LineChartData(dataSet: dataSet)
+        chartView.data = data
+        chartView.notifyDataSetChanged()
+    }
+    
 }
 
 struct DayStatistics: Codable {
@@ -112,6 +147,13 @@ struct DayStatistics: Codable {
     let kcal: Int
 }
 
-struct StatisticsResponse: Codable {
+struct StatisticsResult: Codable {
     let data: [DayStatistics]
+}
+
+struct StatisticsResponse: Codable {
+    let isSuccess: Bool
+    let code: String
+    let message: String
+    let result: StatisticsResult
 }

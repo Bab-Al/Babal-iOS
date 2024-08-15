@@ -908,7 +908,11 @@
                     </view>
                     <navigationItem key="navigationItem" id="PxY-xt-gnD"/>
                     <connections>
+                        <outlet property="carbohydrateChartView" destination="AIk-2k-wmf" id="XXa-JY-EiE"/>
                         <outlet property="dashboardButton" destination="LAj-6T-xdf" id="1ZM-qr-ALi"/>
+                        <outlet property="fatChartView" destination="MGb-fr-N66" id="SUk-TX-dXN"/>
+                        <outlet property="kcalChartView" destination="ZJH-n4-Kyr" id="RYb-w4-cfg"/>
+                        <outlet property="proteinChartView" destination="XYe-aw-9WP" id="fGM-Q9-slC"/>
                         <outlet property="weekLabel" destination="1cx-hO-hyO" id="PUx-bC-13w"/>
                     </connections>
                 </viewController>

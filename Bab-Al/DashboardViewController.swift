@@ -143,11 +143,11 @@ extension DashboardViewController: UIImagePickerControllerDelegate, UINavigation
         let urlString = "http://hongik-babal.ap-northeast-2.elasticbeanstalk.com/main/history?date=\(dateString)"
         
         // Retrieve the token from UserInfoManager
-        let token = UserInfoManager.shared.token
-        print("Token sending: \(String(describing: token))")
+        let token = UserInfoManager.shared.token!
+        print("Token sending: \(token)")
                 
         // Alamofire GET request
-        AF.request(urlString, method: .get, headers: ["Authorization": "Bearer \(String(describing: token))", "accept":"application/json"])
+        AF.request(urlString, method: .get, headers: ["Authorization": "Bearer \(token)", "accept":"application/json"])
             .validate(statusCode: 200..<300) // Validates the response
             .responseDecodable(of: ResponseData.self) { response in
                 switch response.result {
