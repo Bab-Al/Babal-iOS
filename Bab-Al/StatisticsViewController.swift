@@ -122,22 +122,55 @@ class StatisticsViewController: UIViewController {
         let fatValues = data.map { ChartDataEntry(x: Double(dates.firstIndex(of: $0.date) ?? 0), y: Double($0.fat)) }
         let kcalValues = data.map { ChartDataEntry(x: Double(dates.firstIndex(of: $0.date) ?? 0), y: Double($0.kcal)) }
         
-        updateChart(carbohydrateChartView, with: carbohydrateValues, label: "Carbohydrate")
-        updateChart(proteinChartView, with: proteinValues, label: "Protein")
-        updateChart(fatChartView, with: fatValues, label: "Fat")
-        updateChart(kcalChartView, with: kcalValues, label: "Kcal")
+        updateChart(carbohydrateChartView, with: carbohydrateValues, dates: dates, label: "Carbohydrate")
+        updateChart(proteinChartView, with: proteinValues, dates: dates, label: "Protein")
+        updateChart(fatChartView, with: fatValues, dates: dates, label: "Fat")
+        updateChart(kcalChartView, with: kcalValues, dates: dates, label: "Kcal")
     }
     
-    func updateChart(_ chartView: LineChartView, with dataEntries: [ChartDataEntry], label: String) {
+    func updateChart(_ chartView: LineChartView, with dataEntries: [ChartDataEntry], dates: [String], label: String) {
         let dataSet = LineChartDataSet(entries: dataEntries, label: label)
         dataSet.colors = [NSUIColor.blue]
         dataSet.circleColors = [NSUIColor.blue]
+        
         let data = LineChartData(dataSet: dataSet)
         chartView.data = data
+        
+        // Set the custom x-axis formatter
+            let dateFormatter = DateValueFormatter(dates: dates)
+            chartView.xAxis.valueFormatter = dateFormatter
+            chartView.xAxis.granularity = 1.0 // Ensure each label is shown
+        
         chartView.notifyDataSetChanged()
     }
     
 }
+
+class DateValueFormatter: AxisValueFormatter {
+    private let dateFormatter = DateFormatter()
+    private var dates: [String]
+
+    init(dates: [String]) {
+        self.dates = dates
+        dateFormatter.dateFormat = "MM-dd"
+    }
+
+    func stringForValue(_ value: Double, axis: AxisBase?) -> String {
+        let index = Int(value)
+        if index >= 0 && index < dates.count {
+            return dateFormatter.string(from: convertToDate(from: dates[index]))
+        } else {
+            return ""
+        }
+    }
+
+    private func convertToDate(from dateString: String) -> Date {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter.date(from: dateString) ?? Date()
+    }
+}
+
 
 struct DayStatistics: Codable {
     let date: String

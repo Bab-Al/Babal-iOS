@@ -104,12 +104,15 @@ class DashboardViewController: UIViewController, FSCalendarDelegate, FSCalendarD
     }
     
     @IBAction func uploadBreakfastImage(_ sender: UIButton) {
+        performSegue(withIdentifier: "showBreakfast", sender: sender)
     }
     
     @IBAction func uploadLunchImage(_ sender: UIButton) {
+        performSegue(withIdentifier: "showLunch", sender: sender)
     }
 
     @IBAction func uploadDinnerImage(_ sender: UIButton) {
+        performSegue(withIdentifier: "showDinner", sender: sender)
     }
     
     func presentImagePicker(for imageView: UIImageView, uploadButton: UIButton) {
@@ -331,6 +334,19 @@ extension DashboardViewController: UIImagePickerControllerDelegate, UINavigation
         
         task.resume()
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destinationVC = segue.destination as? MealRecordingViewController {
+            if segue.identifier == "showBreakfast" {
+                destinationVC.mealType = "BREAKFAST"
+            } else if segue.identifier == "showLunch" {
+                destinationVC.mealType = "LUNCH"
+            } else if segue.identifier == "showDinner" {
+                destinationVC.mealType = "DINNER"
+            }
+        }
+    }
+
 }
 
 // Define the struct matching your JSON structure
