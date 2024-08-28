@@ -1001,16 +1001,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eiQ-iS-aHf">
-                                <rect key="frame" x="167" y="647" width="61" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Save"/>
-                                <connections>
-                                    <action selector="saveButton:" destination="c7l-wf-Gqt" eventType="touchUpInside" id="Poh-Ex-pbV"/>
-                                    <action selector="uploadButton:" destination="c7l-wf-Gqt" eventType="touchUpInside" id="MFm-vh-zh1"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3ei-y8-dfZ">
                                 <rect key="frame" x="211" y="122" width="128" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1024,6 +1014,15 @@
                                 <rect key="frame" x="44" y="185" width="305" height="210"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PAE-vd-kSN">
+                                <rect key="frame" x="166" y="660" width="61" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Save"/>
+                                <connections>
+                                    <action selector="saveButton:" destination="c7l-wf-Gqt" eventType="touchUpInside" id="oYv-KS-NuE"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="jjc-UA-9WV"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -1527,9 +1526,9 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="ylF-Se-0HL"/>
-        <segue reference="KAN-6b-SCc"/>
-        <segue reference="1ci-KX-y3p"/>
+        <segue reference="Tf4-9S-fir"/>
+        <segue reference="V0K-ce-KNC"/>
+        <segue reference="G4i-7c-eUJ"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="breakfast_doggy" width="3464" height="3464"/>

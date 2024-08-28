@@ -77,7 +77,6 @@ class MealRecordingViewController: UIViewController {
         self.present(imagePicker, animated: true, completion: nil)
     }
     
-    
     @IBAction func saveButton(_ sender: UIButton) {
         guard let mealtime = mealtypeLabel.text,
               let carbohydrateText = carbohydrateTextField.text, let carbohydrate = Int(carbohydrateText),
@@ -105,17 +104,21 @@ class MealRecordingViewController: UIViewController {
         
         // Make the POST request using Alamofire
         AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: ["Authorization": "Bearer \(token)", "accept":"application/json"])
+            .validate(statusCode: 200..<300)
             .responseDecodable(of: MealResponse.self) { response in
                 switch response.result {
                 case .success(let mealResponse):
                     // Successfully decoded the response
-                    print("Success: \(mealResponse.success)")
+                    print("Success: \(mealResponse.isSuccess)")
                     print("Message: \(mealResponse.message)")
-                    // Handle the successful response here
+                    
+                    // If the upload was successful, go back to the previous screen
+                    if mealResponse.isSuccess {
+                        self.navigationController?.popViewController(animated: true)
+                    }
                     
                 case .failure(let error):
                     print("Error: \(error)")
-                    // Handle the error here
                 }
             }
     }
@@ -138,6 +141,8 @@ extension MealRecordingViewController: UIImagePickerControllerDelegate, UINaviga
 }
 
 struct MealResponse: Decodable {
-    let success: Bool
+    let isSuccess: Bool
+    let code: String
     let message: String
+    let result: String
 }

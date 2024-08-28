@@ -104,15 +104,15 @@ class DashboardViewController: UIViewController, FSCalendarDelegate, FSCalendarD
     }
     
     @IBAction func uploadBreakfastImage(_ sender: UIButton) {
-        performSegue(withIdentifier: "showBreakfast", sender: sender)
+//        performSegue(withIdentifier: "showBreakfast", sender: sender)
     }
     
     @IBAction func uploadLunchImage(_ sender: UIButton) {
-        performSegue(withIdentifier: "showLunch", sender: sender)
+//        performSegue(withIdentifier: "showLunch", sender: sender)
     }
 
     @IBAction func uploadDinnerImage(_ sender: UIButton) {
-        performSegue(withIdentifier: "showDinner", sender: sender)
+//        performSegue(withIdentifier: "showDinner", sender: sender)
     }
     
     func presentImagePicker(for imageView: UIImageView, uploadButton: UIButton) {
