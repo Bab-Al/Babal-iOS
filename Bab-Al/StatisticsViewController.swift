@@ -41,6 +41,24 @@ class StatisticsViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+    @IBAction func moveToPreviousWeek() {
+        // Move back one week
+        currentWeekStartDate = Calendar.current.date(byAdding: .day, value: -7, to: currentWeekStartDate)!
+        currentWeekEndDate = Calendar.current.date(byAdding: .day, value: -7, to: currentWeekEndDate)!
+        
+        // Fetch data for the previous week
+        fetchWeekData()
+    }
+
+    @IBAction func moveToNextWeek() {
+        // Move forward one week
+        currentWeekStartDate = Calendar.current.date(byAdding: .day, value: 7, to: currentWeekStartDate)!
+        currentWeekEndDate = Calendar.current.date(byAdding: .day, value: 7, to: currentWeekEndDate)!
+        
+        // Fetch data for the next week
+        fetchWeekData()
+    }
+    
     @IBAction func previousWeekButtonClicked(_ sender: UIButton) {
         currentWeekStartDate = Calendar.current.date(byAdding: .day, value: -7, to: currentWeekStartDate) ?? Date()
         updateWeekLabel()
@@ -51,6 +69,17 @@ class StatisticsViewController: UIViewController {
         updateWeekLabel()
     }
     
+    func getCurrentWeek() {
+        let calendar = Calendar.current
+        let today = Date()
+
+        // Get the start of the week (Monday)
+        if let weekStart = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: today)) {
+            currentWeekStartDate = weekStart
+            // Get the end of the week (Sunday)
+            currentWeekEndDate = calendar.date(byAdding: .day, value: 6, to: currentWeekStartDate)!
+        }
+    }
     
     func getStartOfWeek(date: Date) -> Date {
         let calendar = Calendar.current
@@ -152,7 +181,7 @@ class DateValueFormatter: AxisValueFormatter {
 
     init(dates: [String]) {
         self.dates = dates
-        dateFormatter.dateFormat = "MM-dd"
+        dateFormatter.dateFormat = "MM/dd"
     }
 
     func stringForValue(_ value: Double, axis: AxisBase?) -> String {

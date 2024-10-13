@@ -13,12 +13,14 @@ import Photos
 class MealRecordingViewController: UIViewController {
     
     var mealType: String?
+    var ngrokURL: String?
     
     @IBOutlet weak var mealtypeLabel: UILabel!
     
     @IBOutlet weak var uploadedImageView: UIImageView!
     
     @IBOutlet weak var foodnameTextField: UITextField!
+    @IBOutlet weak var kcalTextField: UITextField!
     @IBOutlet weak var carbohydrateTextField: UITextField!
     @IBOutlet weak var proteinTextField: UITextField!
     @IBOutlet weak var fatTextField: UITextField!
@@ -27,10 +29,31 @@ class MealRecordingViewController: UIViewController {
         super.viewDidLoad()
         
         mealtypeLabel.text = mealType
+        
+        fetchNgrokURLFromGoogleDrive { [weak self] url in
+            self?.ngrokURL = url
+            print("Fetched ngrok URL: \(url ?? "No URL")")
+        }
     }
     
     @IBAction func uploadPhotoButton(_ sender: UIButton) {
         showPhotoOptions()
+    }
+    
+    func fetchNgrokURLFromGoogleDrive(completion: @escaping (String?) -> Void) {
+        let googleDriveURL = "https://drive.google.com/uc?export=downloads&id=10aijQIdVoTc1Umfm864ObXNgxD81i7lJ"
+        
+        AF.request(googleDriveURL, method: .get, headers: ["accept":"application/json"])
+            .validate(statusCode: 200..<300) // Validates the response
+            .responseDecodable(of: NgrokResponse.self) { response in
+                switch response.result {
+                case .success(let data):
+                    completion(data.public_url)
+                case .failure(let error):
+                    print("Error fetching URL from Google Drive: \(error)")
+                    completion(nil)
+                }
+        }
     }
     
     func showPhotoOptions() {
@@ -82,6 +105,7 @@ class MealRecordingViewController: UIViewController {
               let carbohydrateText = carbohydrateTextField.text, let carbohydrate = Int(carbohydrateText),
               let proteinText = proteinTextField.text, let protein = Int(proteinText),
               let fatText = fatTextField.text, let fat = Int(fatText),
+              let caloriesText = kcalTextField.text, let calories = Int(caloriesText),
               let foodName = foodnameTextField.text else {
             print("Error: Invalid input")
             return
@@ -93,6 +117,7 @@ class MealRecordingViewController: UIViewController {
             "carbohydrate": carbohydrate,
             "protein": protein,
             "fat": fat,
+            "calories": calories,
             "foodName": foodName
         ]
         
@@ -126,13 +151,65 @@ class MealRecordingViewController: UIViewController {
 
 
 extension MealRecordingViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let editedImage = info[.editedImage] as? UIImage {
-            uploadedImageView.image = editedImage
-        } else if let originalImage = info[.originalImage] as? UIImage {
-            uploadedImageView.image = originalImage
+    func uploadImage(image: UIImage) {
+        // Convert the UIImage to Data (JPEG or PNG format)
+        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
+            print("Error: Could not convert image to data.")
+            return
         }
+        
+        guard let ngrokURL = ngrokURL else {
+            print("Ngrok URL is not available")
+            return
+        }
+        
+        // Append "/predict" to the ngrok URL
+        let url = "\(ngrokURL)/predict"
+        print("Using fetched ngrok URL: \(url)")
+        
+        // Set up the headers, including the authorization token
+        let headers: HTTPHeaders = [
+            "Content-Type": "multipart/form-data"
+        ]
+        
+        // Use Alamofire to upload the image
+        AF.upload(multipartFormData: { multipartFormData in
+            // Add the image data as multipart form data
+            multipartFormData.append(imageData, withName: "image", fileName: "meal_photo.jpg", mimeType: "image/jpeg")
+        }, to: url, method: .post, headers: headers)
+        .responseDecodable(of: ImageUploadResponse.self) { response in
+            switch response.result {
+                    case .success(let uploadResponse):
+                        print("Upload success: \(uploadResponse)")
+                        
+                        // If detected_classes is available, get the class_id and set it in the text field
+                        if let detectedClass = uploadResponse.detected_classes.first {
+                            self.foodnameTextField.text = detectedClass.class_id
+                        }
+                        
+                    case .failure(let error):
+                        print("Error: \(error)")
+                    }
+        }
+    }
+
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        var selectedImage: UIImage?
+        
+        if let editedImage = info[.editedImage] as? UIImage {
+            selectedImage = editedImage
+        } else if let originalImage = info[.originalImage] as? UIImage {
+            selectedImage = originalImage
+        }
+        
+        uploadedImageView.image = selectedImage
+        
         picker.dismiss(animated: true, completion: nil)
+        
+        if let imageToUpload = selectedImage {
+            uploadImage(image: imageToUpload)
+        }
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -145,4 +222,16 @@ struct MealResponse: Decodable {
     let code: String
     let message: String
     let result: String
+}
+
+struct NgrokResponse: Decodable {
+    let public_url: String
+}
+
+struct ImageUploadResponse: Decodable {
+    let detected_classes: [DetectedClass]
+}
+
+struct DetectedClass: Decodable {
+    let class_id: String
 }
