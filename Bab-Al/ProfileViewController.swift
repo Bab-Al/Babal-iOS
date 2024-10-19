@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class ProfileViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -21,6 +22,15 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         let imageName: String
     }
     
+    struct Profile: Codable {
+        let username: String
+        let height: Int
+        let weight: Int
+        let age: Int
+        let gender: String
+        let bmr: Int
+    }
+    
     let data: [Icon] = [
         Icon(title: "Edit Profile", imageName: "user"),
         Icon(title: "Edit Food Category", imageName: "star"),
@@ -34,7 +44,37 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         
         profileTableView.dataSource = self
         profileTableView.delegate = self
+        
+        fetchProfileData()
     }
+    
+    // Update labels with the fetched JSON data
+    func updateProfileData(profile: Profile) {
+        DispatchQueue.main.async {
+            self.heightTextLabel.text = "\(profile.height)"
+            self.weightTextLabel.text = "\(profile.weight)"
+        }
+    }
+    
+    func fetchProfileData() {
+        let url = "http://hongik-babal.ap-northeast-2.elasticbeanstalk.com/setting" // Replace with your actual API endpoint
+            
+        let token = UserInfoManager.shared.token!
+        print("Token sending: \(token)")
+        
+        AF.request(url, method: .get, headers: ["Authorization": "Bearer \(token)", "accept":"application/json"])
+            .validate(statusCode: 200..<300) // Validates the response
+            .responseDecodable(of: Profile.self) { response in
+                switch response.result {
+                case .success(let profile):
+                    self.updateProfileData(profile: profile)
+                case .failure(let error):
+                    print("Error fetching profile data: \(error)")
+                }
+            }
+    }
+        
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count
@@ -66,10 +106,17 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         UserInfoManager.shared.clearAuthToken()
         UserInfoManager.shared.userInfo = UserInfo() // Reset user info
 
-        // Navigate to login screen
+        // Instantiate the LoginViewController
         if let loginViewController = storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController {
-            view.window?.rootViewController = loginViewController
-            view.window?.makeKeyAndVisible()
+                
+            // Find the active UIWindowScene
+            if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                let window = scene.windows.first {
+                
+                // Set the rootViewController to the LoginViewController
+                window.rootViewController = loginViewController
+                window.makeKeyAndVisible()
+            }
         }
     }
 
