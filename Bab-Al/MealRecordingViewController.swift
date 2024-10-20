@@ -27,6 +27,7 @@ class MealRecordingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.navigationBar.barTintColor = UIColor.white
         
         mealtypeLabel.text = mealType
         
@@ -34,6 +35,36 @@ class MealRecordingViewController: UIViewController {
             self?.ngrokURL = url
             print("Fetched ngrok URL: \(url ?? "No URL")")
         }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardUp), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDown), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardUp(notification:NSNotification) {
+        if let keyboardFrame:NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+       
+            UIView.animate(
+                withDuration: 0.3
+                , animations: {
+                    self.view.transform = CGAffineTransform(translationX: 0, y: -130)
+                }
+            )
+        }
+    }
+    
+    @objc func keyboardDown() {
+        self.view.transform = .identity
     }
     
     @IBAction func uploadPhotoButton(_ sender: UIButton) {

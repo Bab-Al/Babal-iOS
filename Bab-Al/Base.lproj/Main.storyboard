@@ -75,13 +75,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sign Up" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x2w-C7-ptI">
-                                <rect key="frame" x="48" y="151" width="70" height="24"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Eh-LD-iLm">
                                 <rect key="frame" x="48" y="201" width="79" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -171,6 +164,13 @@
                                     <action selector="nextClicked:" destination="959-Gi-6HR" eventType="touchUpInside" id="oaQ-mh-cWD"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sign Up" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x2w-C7-ptI">
+                                <rect key="frame" x="46" y="141" width="70" height="24"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="9PY-cg-eVP"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -424,7 +424,7 @@
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BOi-sl-Ngf" userLabel="weekly Calendar View" customClass="FSCalendar">
                                 <rect key="frame" x="15" y="146" width="363" height="131"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.76862745098039209" green="0.85490196078431369" blue="0.84705882352941175" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="backgroundColor" red="0.64669461052710797" green="0.79699337121212122" blue="0.72711128350469867" alpha="0.42691949503311261" colorSpace="custom" customColorSpace="displayP3"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
                                         <real key="value" value="10"/>
@@ -888,7 +888,7 @@
                                                 </constraints>
                                             </view>
                                         </subviews>
-                                        <color key="backgroundColor" red="0.76862745098039209" green="0.85490196078431369" blue="0.84705882352941175" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <color key="backgroundColor" red="0.72156862745098038" green="0.83137254901960778" blue="0.78823529411764703" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <edgeInsets key="layoutMargins" top="15" left="15" bottom="15" right="15"/>
                                     </stackView>
                                 </subviews>
@@ -1070,7 +1070,7 @@
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Yt0-lH-EKN">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" red="0.76862745098039209" green="0.85490196078431369" blue="0.84705882352941175" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="backgroundColor" red="0.67645093730000005" green="0.83137255909999996" blue="0.75288851619999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </tabBar>
                     <connections>
                         <segue destination="fFT-L2-ZYQ" kind="relationship" relationship="viewControllers" id="sj3-op-dMN"/>
@@ -1514,7 +1514,7 @@
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Ezi-yA-f6g"/>
-                        <color key="backgroundColor" red="0.76862745098039209" green="0.85490196078431369" blue="0.84705882352941175" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="backgroundColor" red="0.6764509373050609" green="0.83137255909999996" blue="0.75288851622174524" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Profile" image="person.fill" catalog="system" id="EM0-7g-Rub"/>
                     <connections>
@@ -1530,9 +1530,9 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="ylF-Se-0HL"/>
-        <segue reference="KAN-6b-SCc"/>
-        <segue reference="G4i-7c-eUJ"/>
+        <segue reference="Tf4-9S-fir"/>
+        <segue reference="V0K-ce-KNC"/>
+        <segue reference="GZg-k9-cvd"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="breakfast_doggy" width="3464" height="3464"/>

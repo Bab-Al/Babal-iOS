@@ -24,7 +24,8 @@ class SignUpOneViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        self.navigationController?.navigationBar.barTintColor = UIColor.white
+
         // Set text field delegates
         ageTextField.delegate = self
         heightTextField.delegate = self
@@ -34,6 +35,36 @@ class SignUpOneViewController: UIViewController, UITextFieldDelegate {
         ageRequiredMessage.isHidden = true
         heightRequiredMessage.isHidden = true
         weightRequiredMessage.isHidden = true
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardUp), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDown), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardUp(notification:NSNotification) {
+        if let keyboardFrame:NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+       
+            UIView.animate(
+                withDuration: 0.3
+                , animations: {
+                    self.view.transform = CGAffineTransform(translationX: 0, y: -100)
+                }
+            )
+        }
+    }
+    
+    @objc func keyboardDown() {
+        self.view.transform = .identity
     }
     
     @IBAction func nextClicked(_ sender: UIButton) {

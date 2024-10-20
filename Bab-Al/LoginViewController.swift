@@ -19,6 +19,7 @@ class LoginViewController: UIViewController {
         
     }
     
+    
     @IBAction func loginClicked(_ sender: UIButton) {
         guard let email = emailTextField.text, !email.isEmpty,
             let password = passwordTextField.text, !password.isEmpty else {
