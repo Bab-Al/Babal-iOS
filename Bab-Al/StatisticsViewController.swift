@@ -110,7 +110,7 @@ class StatisticsViewController: UIViewController {
         let startDateString = dateFormatter.string(from: currentWeekStartDate)
         let endDateString = dateFormatter.string(from: currentWeekEndDate)
         
-        let url = "http://hongik-babal.ap-northeast-2.elasticbeanstalk.com/main/statistics"
+        let url = "http://babal-env.ap-northeast-2.elasticbeanstalk.com/main/statistics"
         
         let parameters: [String: String] = [
             "startDate": startDateString,

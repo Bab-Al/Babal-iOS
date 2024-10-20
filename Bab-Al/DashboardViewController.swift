@@ -131,7 +131,7 @@ extension DashboardViewController: UIImagePickerControllerDelegate, UINavigation
         let dateString = dateFormatter.string(from: date)
         
         // Construct the URL with the date
-        let urlString = "http://hongik-babal.ap-northeast-2.elasticbeanstalk.com/main/history?date=\(dateString)"
+        let urlString = "http://babal-env.ap-northeast-2.elasticbeanstalk.com/main/history?date=\(dateString)"
         
         // Retrieve the token from UserInfoManager
         let token = UserInfoManager.shared.token!

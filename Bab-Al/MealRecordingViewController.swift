@@ -153,7 +153,7 @@ class MealRecordingViewController: UIViewController {
         ]
         
         // Define the URL for the POST request
-        let url = "http://hongik-babal.ap-northeast-2.elasticbeanstalk.com/main/history"
+        let url = "http://babal-env.ap-northeast-2.elasticbeanstalk.com/main/history"
         
         let token = UserInfoManager.shared.token!
         print("Token sending: \(token)")
@@ -213,9 +213,9 @@ extension MealRecordingViewController: UIImagePickerControllerDelegate, UINaviga
                     case .success(let uploadResponse):
                         print("Upload success: \(uploadResponse)")
                         
-                        // If detected_classes is available, get the class_id and set it in the text field
+                        // If detected_classes is available, get the food_name and set it in the text field
                         if let detectedClass = uploadResponse.detected_classes.first {
-                            self.foodnameTextField.text = detectedClass.class_id
+                            self.foodnameTextField.text = detectedClass.food_name
                         }
                         
                     case .failure(let error):
@@ -264,5 +264,5 @@ struct ImageUploadResponse: Decodable {
 }
 
 struct DetectedClass: Decodable {
-    let class_id: String
+    let food_name: String
 }

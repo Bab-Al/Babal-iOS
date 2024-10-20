@@ -22,14 +22,6 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         let imageName: String
     }
     
-    struct Profile: Codable {
-        let username: String
-        let height: Int
-        let weight: Int
-        let age: Int
-        let gender: String
-        let bmr: Int
-    }
     
     let data: [Icon] = [
         Icon(title: "Edit Profile", imageName: "user"),
@@ -51,23 +43,27 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     // Update labels with the fetched JSON data
     func updateProfileData(profile: Profile) {
         DispatchQueue.main.async {
-            self.heightTextLabel.text = "\(profile.height)"
-            self.weightTextLabel.text = "\(profile.weight)"
+            self.heightTextLabel.text = "\(profile.height ?? 0) cm"
+            self.weightTextLabel.text = "\(profile.weight ?? 0) kg"
         }
     }
     
     func fetchProfileData() {
-        let url = "http://hongik-babal.ap-northeast-2.elasticbeanstalk.com/setting" // Replace with your actual API endpoint
+        let url = "http://babal-env.ap-northeast-2.elasticbeanstalk.com/setting" // Replace with your actual API endpoint
             
         let token = UserInfoManager.shared.token!
         print("Token sending: \(token)")
         
         AF.request(url, method: .get, headers: ["Authorization": "Bearer \(token)", "accept":"application/json"])
             .validate(statusCode: 200..<300) // Validates the response
-            .responseDecodable(of: Profile.self) { response in
+            .responseDecodable(of: Response.self) { response in
                 switch response.result {
-                case .success(let profile):
-                    self.updateProfileData(profile: profile)
+                case .success(let responseData):
+                    if let profile = responseData.result {
+                        self.updateProfileData(profile: profile)
+                    } else {
+                        print("Profile data is missing from the response.")
+                    }
                 case .failure(let error):
                     print("Error fetching profile data: \(error)")
                 }
@@ -120,4 +116,17 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
 
+}
+
+struct Profile: Codable {
+    let username: String?
+    let height: Int?
+    let weight: Int?
+    let age: Int?
+    let gender: String?
+    let bmr: Int?
+}
+
+struct Response: Decodable {
+    let result: Profile?
 }
