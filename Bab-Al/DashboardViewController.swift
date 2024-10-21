@@ -58,8 +58,16 @@ class DashboardViewController: UIViewController, FSCalendarDelegate, FSCalendarD
         weeklyCalendarView.dataSource = self
         weeklyCalendarView.delegate = self
         weeklyCalendarView.scope = .week
+        weeklyCalendarView.appearance.borderRadius = 0.5
+        weeklyCalendarView.appearance.calendar.headerHeight = 22
+        weeklyCalendarView.appearance.calendar.weekdayHeight = 30
+        weeklyCalendarView.appearance.titleFont = .systemFont(ofSize: 16.0)
+        weeklyCalendarView.appearance.todayColor = UIColor(red: 156/255, green: 174/255, blue: 172/255, alpha: 1)
+        weeklyCalendarView.appearance.selectionColor = UIColor(red: 253/255, green: 177/255, blue: 55/255, alpha: 1)
                 
         configureMealViews()
+//        let today = Date()
+//        fetchData(for: today)
     }
     
     func configureMealViews() {        
@@ -178,20 +186,20 @@ extension DashboardViewController: UIImagePickerControllerDelegate, UINavigation
         }
         
         // Update UILabels with the data or "..." if the value is nil
-        self.userTotalKcalLabel.text = data.userTotalKcal.map { "\($0)" } ?? "..."
+        self.userTotalKcalLabel.text = data.userTotalKcal.map { "\($0) kcal" } ?? "..."
         self.userNowKcalLabel.text = data.userNowKcal.map { "\($0)" } ?? "..."
-        self.userCarboLabel.text = data.userCarbo.map { "\($0)g" } ?? "..."
-        self.userProteinLabel.text = data.userProtein.map { "\($0)g" } ?? "..."
-        self.userFatLabel.text = data.userFat.map { "\($0)g" } ?? "..."
+        self.userCarboLabel.text = data.userCarbo.map { "\($0) g" } ?? "..."
+        self.userProteinLabel.text = data.userProtein.map { "\($0) g" } ?? "..."
+        self.userFatLabel.text = data.userFat.map { "\($0) g" } ?? "..."
         
-        self.breakfastNameLabel.text = data.breakfastName?.isEmpty == false ? data.breakfastName : "..."
-        self.breakfastKcalLabel.text = data.breakfastKcal.map { "\($0) kcal" } ?? "..."
+        self.breakfastNameLabel.text = data.breakfastName?.isEmpty == false ? data.breakfastName : "Not recorded yet..."
+        self.breakfastKcalLabel.text = data.breakfastKcal.map { "\($0) kcal" } ?? "0 kcal"
         
-        self.lunchNameLabel.text = data.lunchName?.isEmpty == false ? data.lunchName : "..."
-        self.lunchKcalLabel.text = data.lunchKcal.map { "\($0) kcal" } ?? "..."
+        self.lunchNameLabel.text = data.lunchName?.isEmpty == false ? data.lunchName : "Not recorded yet..."
+        self.lunchKcalLabel.text = data.lunchKcal.map { "\($0) kcal" } ?? "0 kcal"
         
-        self.dinnerNameLabel.text = data.dinnerName?.isEmpty == false ? data.dinnerName : "..."
-        self.dinnerKcalLabel.text = data.dinnerKcal.map { "\($0) kcal" } ?? "..."
+        self.dinnerNameLabel.text = data.dinnerName?.isEmpty == false ? data.dinnerName : "Not recorded yet..."
+        self.dinnerKcalLabel.text = data.dinnerKcal.map { "\($0) kcal" } ?? "0 kcal"
         
     }
     
