@@ -49,7 +49,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func fetchProfileData() {
-        let url = "http://babal-env.ap-northeast-2.elasticbeanstalk.com/setting" // Replace with your actual API endpoint
+        let url = "http://hongik-babal.ap-northeast-2.elasticbeanstalk.com/setting" // Replace with your actual API endpoint
             
         let token = UserInfoManager.shared.token!
         print("Token sending: \(token)")

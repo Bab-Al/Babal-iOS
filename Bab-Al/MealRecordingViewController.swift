@@ -153,7 +153,7 @@ class MealRecordingViewController: UIViewController {
         ]
         
         // Define the URL for the POST request
-        let url = "http://babal-env.ap-northeast-2.elasticbeanstalk.com/main/history"
+        let url = "http://hongik-babal.ap-northeast-2.elasticbeanstalk.com/main/history"
         
         let token = UserInfoManager.shared.token!
         print("Token sending: \(token)")

@@ -11,7 +11,7 @@ import Alamofire
 class UserInfoManager {
     static let shared = UserInfoManager()
     
-    private let baseURL = "http://babal-env.ap-northeast-2.elasticbeanstalk.com/"
+    private let baseURL = "http://hongik-babal.ap-northeast-2.elasticbeanstalk.com/"
     private var authToken: String?
 
     

@@ -59,9 +59,9 @@ class DashboardViewController: UIViewController, FSCalendarDelegate, FSCalendarD
         weeklyCalendarView.delegate = self
         weeklyCalendarView.scope = .week
         weeklyCalendarView.appearance.borderRadius = 0.5
-        weeklyCalendarView.appearance.calendar.headerHeight = 22
+        weeklyCalendarView.appearance.calendar.headerHeight = 26
         weeklyCalendarView.appearance.calendar.weekdayHeight = 30
-        weeklyCalendarView.appearance.titleFont = .systemFont(ofSize: 16.0)
+        weeklyCalendarView.appearance.titleFont = .systemFont(ofSize: 18.0)
         weeklyCalendarView.appearance.todayColor = UIColor(red: 156/255, green: 174/255, blue: 172/255, alpha: 1)
         weeklyCalendarView.appearance.selectionColor = UIColor(red: 253/255, green: 177/255, blue: 55/255, alpha: 1)
                 
@@ -139,7 +139,7 @@ extension DashboardViewController: UIImagePickerControllerDelegate, UINavigation
         let dateString = dateFormatter.string(from: date)
         
         // Construct the URL with the date
-        let urlString = "http://babal-env.ap-northeast-2.elasticbeanstalk.com/main/history?date=\(dateString)"
+        let urlString = "http://hongik-babal.ap-northeast-2.elasticbeanstalk.com/main/history?date=\(dateString)"
         
         // Retrieve the token from UserInfoManager
         let token = UserInfoManager.shared.token!
