@@ -133,22 +133,28 @@ class MealRecordingViewController: UIViewController {
     
     @IBAction func saveButton(_ sender: UIButton) {
         guard let mealtime = mealtypeLabel.text,
-              let carbohydrateText = carbohydrateTextField.text, let carbohydrate = Int(carbohydrateText),
-              let proteinText = proteinTextField.text, let protein = Int(proteinText),
-              let fatText = fatTextField.text, let fat = Int(fatText),
-              let caloriesText = kcalTextField.text, let calories = Int(caloriesText),
+              let carbohydrateText = carbohydrateTextField.text, let carbohydrate = Float(carbohydrateText)?.rounded(.down),
+              let proteinText = proteinTextField.text, let protein = Float(proteinText)?.rounded(.down),
+              let fatText = fatTextField.text, let fat = Float(fatText)?.rounded(.down),
+              let caloriesText = kcalTextField.text, let calories = Float(caloriesText)?.rounded(.down),
               let foodName = foodnameTextField.text else {
             print("Error: Invalid input")
             return
         }
         
+        // Convert floored `Float` values to `Int`
+        let flooredCarbohydrate = Int(carbohydrate)
+        let flooredProtein = Int(protein)
+        let flooredFat = Int(fat)
+        let flooredCalories = Int(calories)
+        
         // Create the parameters dictionary (JSON)
         let parameters: [String: Any] = [
             "mealtime": mealtime,
-            "carbohydrate": carbohydrate,
-            "protein": protein,
-            "fat": fat,
-            "calories": calories,
+            "carbohydrate": flooredCarbohydrate,
+            "protein": flooredProtein,
+            "fat": flooredFat,
+            "calories": flooredCalories,
             "foodName": foodName
         ]
         
@@ -203,24 +209,31 @@ extension MealRecordingViewController: UIImagePickerControllerDelegate, UINaviga
             "Content-Type": "multipart/form-data"
         ]
         
+        // Generate a random file name
+        let fileName = "meal_photo_\(UUID().uuidString).jpg"
+        
         // Use Alamofire to upload the image
         AF.upload(multipartFormData: { multipartFormData in
             // Add the image data as multipart form data
-            multipartFormData.append(imageData, withName: "image", fileName: "meal_photo.jpg", mimeType: "image/jpeg")
+            multipartFormData.append(imageData, withName: "image", fileName: fileName, mimeType: "image/jpeg")
         }, to: url, method: .post, headers: headers)
         .responseDecodable(of: ImageUploadResponse.self) { response in
             switch response.result {
-                    case .success(let uploadResponse):
-                        print("Upload success: \(uploadResponse)")
-                        
-                        // If detected_classes is available, get the food_name and set it in the text field
-                        if let detectedClass = uploadResponse.detected_classes.first {
-                            self.foodnameTextField.text = detectedClass.food_name
-                        }
-                        
-                    case .failure(let error):
-                        print("Error: \(error)")
-                    }
+            case .success(let uploadResponse):
+                print("Upload success: \(uploadResponse)")
+                
+                // If detected_classes is available, get the food_name and set it in the text field
+                if let detectedClass = uploadResponse.detected_classes.first {
+                    self.foodnameTextField.text = detectedClass.food_name
+                }
+                self.carbohydrateTextField.text = String(uploadResponse.carb)
+                self.proteinTextField.text = String(uploadResponse.protein)
+                self.fatTextField.text = String(uploadResponse.fat)
+                self.kcalTextField.text = String(uploadResponse.kcal)
+                
+            case .failure(let error):
+                print("Error: \(error)")
+            }
         }
     }
 
@@ -261,6 +274,10 @@ struct NgrokResponse: Decodable {
 
 struct ImageUploadResponse: Decodable {
     let detected_classes: [DetectedClass]
+    let carb: Float
+    let protein: Float
+    let fat: Float
+    let kcal: Float
 }
 
 struct DetectedClass: Decodable {

@@ -165,13 +165,13 @@ class StatisticsViewController: UIViewController {
         let fatValues = data.map { ChartDataEntry(x: Double(dates.firstIndex(of: $0.date) ?? 0), y: Double($0.fat)) }
         let kcalValues = data.map { ChartDataEntry(x: Double(dates.firstIndex(of: $0.date) ?? 0), y: Double($0.kcal)) }
         
-        updateChart(carbohydrateChartView, with: carbohydrateValues, dates: dates, label: "Carbohydrate")
-        updateChart(proteinChartView, with: proteinValues, dates: dates, label: "Protein")
-        updateChart(fatChartView, with: fatValues, dates: dates, label: "Fat")
-        updateChart(kcalChartView, with: kcalValues, dates: dates, label: "Kcal")
+        updateChart(carbohydrateChartView, with: carbohydrateValues, dates: dates, label: "Carbohydrate", yMaxValue: 150)
+        updateChart(proteinChartView, with: proteinValues, dates: dates, label: "Protein", yMaxValue: 80)
+        updateChart(fatChartView, with: fatValues, dates: dates, label: "Fat", yMaxValue: 100)
+        updateChart(kcalChartView, with: kcalValues, dates: dates, label: "Kcal", yMaxValue: 2000)
     }
     
-    func updateChart(_ chartView: LineChartView, with dataEntries: [ChartDataEntry], dates: [String], label: String) {
+    func updateChart(_ chartView: LineChartView, with dataEntries: [ChartDataEntry], dates: [String], label: String, yMaxValue: Double) {
         let dataSet = LineChartDataSet(entries: dataEntries, label: label)
         dataSet.colors = [NSUIColor.systemOrange]
         dataSet.circleColors = [NSUIColor.systemOrange]
@@ -202,7 +202,7 @@ class StatisticsViewController: UIViewController {
         
         // Set y-axis limits
         chartView.leftAxis.axisMinimum = 0
-        chartView.leftAxis.axisMaximum = 100
+        chartView.leftAxis.axisMaximum = yMaxValue
         chartView.rightAxis.enabled = false
         
         chartView.legend.enabled = false
