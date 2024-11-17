@@ -17,6 +17,7 @@ class DashboardViewController: UIViewController, FSCalendarDelegate, FSCalendarD
     @IBOutlet weak var calendarButton: UIButton!
     @IBOutlet weak var weeklyCalendarView: FSCalendar!
     
+    @IBOutlet weak var nutriView: UIView!
     @IBOutlet weak var userTotalKcalLabel: UILabel!
     @IBOutlet weak var userNowKcalLabel: UILabel!
     @IBOutlet weak var userCarboLabel: UILabel!
@@ -65,12 +66,17 @@ class DashboardViewController: UIViewController, FSCalendarDelegate, FSCalendarD
         weeklyCalendarView.appearance.todayColor = UIColor(red: 156/255, green: 174/255, blue: 172/255, alpha: 1)
         weeklyCalendarView.appearance.selectionColor = UIColor(red: 253/255, green: 177/255, blue: 55/255, alpha: 1)
                 
+        configureNutriView()
         configureMealViews()
 //        let today = Date()
 //        fetchData(for: today)
     }
     
-    func configureMealViews() {        
+    func configureNutriView() {
+        nutriView.layer.cornerRadius = 10
+    }
+    
+    func configureMealViews() {
         breakfastView.layer.cornerRadius = 10
         lunchView.layer.cornerRadius = 10
         dinnerView.layer.cornerRadius = 10

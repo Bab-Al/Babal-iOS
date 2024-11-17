@@ -65,7 +65,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
             UIView.animate(
                 withDuration: 0.3
                 , animations: {
-                    self.view.transform = CGAffineTransform(translationX: 0, y: -100)
+                    self.view.transform = CGAffineTransform(translationX: 0, y: -110)
                 }
             )
         }

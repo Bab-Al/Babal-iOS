@@ -25,6 +25,7 @@
 		029AC7412C69E772004AFE5D /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029AC7402C69E772004AFE5D /* StatisticsViewController.swift */; };
 		02C9FF672C77B46700A7446A /* MealRecordingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C9FF662C77B46700A7446A /* MealRecordingViewController.swift */; };
 		02CA829E2CDF555100F62A2B /* RecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CA829D2CDF555100F62A2B /* RecipeViewController.swift */; };
+		02CA82A12CE62AFE00F62A2B /* RecipeResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CA82A02CE62AFE00F62A2B /* RecipeResultViewController.swift */; };
 		02CFC6622BE0D609006F49AE /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CFC6612BE0D609006F49AE /* ProfileViewController.swift */; };
 		B92E5112EC8E9A975F2197B3 /* Pods_Bab_Al.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C889A8F163EA8DB9BA483B70 /* Pods_Bab_Al.framework */; };
 /* End PBXBuildFile section */
@@ -50,6 +51,7 @@
 		029AC7402C69E772004AFE5D /* StatisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
 		02C9FF662C77B46700A7446A /* MealRecordingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealRecordingViewController.swift; sourceTree = "<group>"; };
 		02CA829D2CDF555100F62A2B /* RecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeViewController.swift; sourceTree = "<group>"; };
+		02CA82A02CE62AFE00F62A2B /* RecipeResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeResultViewController.swift; sourceTree = "<group>"; };
 		02CFC6612BE0D609006F49AE /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		7014B379E1B43B88A9927027 /* Pods-Bab-Al.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bab-Al.debug.xcconfig"; path = "Target Support Files/Pods-Bab-Al/Pods-Bab-Al.debug.xcconfig"; sourceTree = "<group>"; };
 		89923E193A419AE2CDC9145D /* Pods-Bab-Al.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bab-Al.release.xcconfig"; path = "Target Support Files/Pods-Bab-Al/Pods-Bab-Al.release.xcconfig"; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 				029AC7402C69E772004AFE5D /* StatisticsViewController.swift */,
 				02C9FF662C77B46700A7446A /* MealRecordingViewController.swift */,
 				02CA829D2CDF555100F62A2B /* RecipeViewController.swift */,
+				02CA82A02CE62AFE00F62A2B /* RecipeResultViewController.swift */,
 			);
 			path = "Bab-Al";
 			sourceTree = "<group>";
@@ -260,6 +263,7 @@
 				023AB1A72C5A265B008193EC /* MonthlyCalendarViewController.swift in Sources */,
 				020F3EAD2BEC9D2C008C1381 /* CustomTableViewCell.swift in Sources */,
 				02CFC6622BE0D609006F49AE /* ProfileViewController.swift in Sources */,
+				02CA82A12CE62AFE00F62A2B /* RecipeResultViewController.swift in Sources */,
 				024B81352BDD569600511DD0 /* SceneDelegate.swift in Sources */,
 				021E7E5A2BDEBB1300760500 /* DashboardViewController.swift in Sources */,
 				02CA829E2CDF555100F62A2B /* RecipeViewController.swift in Sources */,

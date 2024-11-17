@@ -9,16 +9,19 @@ import UIKit
 import Alamofire
 
 class RecipeViewController: UIViewController, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate {
-
+    
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var selectedWordsStackView: UIStackView!
     @IBOutlet weak var searchButton: UIButton!
+    @IBOutlet weak var wizardButton: UIButton!
     
-//    var allResults: [String] = []  // This will store the list of words fetched from your database
     var filteredResults: [String] = []
-//    var currentRequest: DataRequest?
-    var selectedWords: [String] = []
+    var selectedWords: [String] = [] {
+        didSet {
+            wizardButton.isHidden = selectedWords.isEmpty
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +31,8 @@ class RecipeViewController: UIViewController, UISearchBarDelegate, UITableViewDa
         searchBar.delegate = self
         tableView.dataSource = self
         tableView.delegate = self
+        
+        wizardButton.isHidden = true
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -63,28 +68,11 @@ class RecipeViewController: UIViewController, UISearchBarDelegate, UITableViewDa
 
     @IBAction func searchButtonTapped(_ sender: UIButton) {
         guard let query = searchBar.text, !query.isEmpty else { return }
-        fetchSuggestions(for: query)
+        fetchIngredients(for: query)
     }
     
-    
-//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-//        guard !searchText.isEmpty else {
-//            filteredResults.removeAll()
-//            tableView.reloadData()
-//            return
-//        }
-//         
-//        // Cancel any ongoing request to avoid overlapping
-//        currentRequest?.cancel()
-//        
-//        // Debounce: Add a slight delay before making the request
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-//            // Call the API
-//            self.fetchSuggestions(for: searchText)
-//        }
-//    }
         
-    func fetchSuggestions(for query: String) {
+    func fetchIngredients(for query: String) {
         
         let url = "http://hongik-babal.ap-northeast-2.elasticbeanstalk.com/recipe/ingredients"
         
@@ -180,5 +168,73 @@ class RecipeViewController: UIViewController, UISearchBarDelegate, UITableViewDa
         // Remove button from stack view
         sender.removeFromSuperview()
     }
+    
+    
+    
+    @IBAction func wizardButtonTapped(_ sender: UIButton) {
+        // Prepare the selected ingredients
+        guard !selectedWords.isEmpty else {
+            print("No ingredients selected")
+            return
+        }
+        
+        // Define the POST endpoint and parameters
+        let url = "http://hongik-babal.ap-northeast-2.elasticbeanstalk.com/recipe/recommendation"
+        
+        // Retrieve the token from UserInfoManager
+        let token = UserInfoManager.shared.token!
+        print("Token sending: \(token)")
+        
+        let parameters: [String: Any] = ["ingredients": selectedWords]
+        print("selectedWords: \(selectedWords)")
+        print("parameters: \(parameters)")
+        
+        // Send POST request
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: ["Authorization": "Bearer \(token)", "Content-Type":"application/json", "accept":"application/json"])
+            .validate(statusCode: 200..<300) // Validates the response
+            .responseDecodable(of: RecipeResponseData.self) { response in
+                switch response.result {
+                case .success(let data):
+                    print("Response received: \(data)")
+                    
+                    // Navigate to the Response View Controller
+                    self.showRecipeResultViewController(with: data.result)
+                case .failure(let error):
+                    print("Error sending request: \(error)")
+                }
+            }
+    }
+    
+    func showRecipeResultViewController(with recipes:[Recipe]) {
+        // Instantiate the new view controller
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let responseVC = storyboard.instantiateViewController(withIdentifier: "RecipeResultViewController") as? RecipeResultViewController else { return }
+        
+        // Pass the response data
+        responseVC.recipes = recipes
 
+        // Navigate to the new view controller
+        navigationController?.pushViewController(responseVC, animated: true)
+    }
+    
+
+}
+
+
+// Define the response model
+struct RecipeResponseData: Decodable {
+    let result: [Recipe]  // Adjust this type to match your server's response
+}
+
+struct Recipe: Decodable {
+    let name: String
+    let minutes: Int
+    let calories: Float
+    let carbohydrate: Float
+    let protein: Float
+    let fat: Float
+    let n_steps: Int
+    let steps: [String]
+    let n_ingredients: Int
+    let ingredients: [String]
 }

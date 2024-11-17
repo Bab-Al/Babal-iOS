@@ -32,7 +32,7 @@ class LoginViewController: UIViewController {
             switch result {
             case .success(let token):
                 print("Login successful. Token: \(token)")
-//                self.performSegue(withIdentifier: "goToNext", sender: self)
+                self.performSegue(withIdentifier: "goToMain", sender: self)
             case .failure(let error):
                 // Show an alert for failed login
                 switch error {

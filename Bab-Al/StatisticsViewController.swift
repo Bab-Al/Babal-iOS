@@ -17,6 +17,11 @@ class StatisticsViewController: UIViewController {
     
     @IBOutlet weak var weekLabel: UILabel!
     
+    @IBOutlet weak var carbohydrateView: UIView!
+    @IBOutlet weak var proteinView: UIView!
+    @IBOutlet weak var fatView: UIView!
+    @IBOutlet weak var kcalView: UIView!
+    
     @IBOutlet weak var carbohydrateChartView: LineChartView!
     @IBOutlet weak var proteinChartView: LineChartView!
     @IBOutlet weak var fatChartView: LineChartView!
@@ -36,6 +41,15 @@ class StatisticsViewController: UIViewController {
 //        currentWeekStartDate = getStartOfWeek(date: Date()) // Set to current week's Monday
         updateWeekLabel()
         fetchWeekData()
+        
+        configureViews()
+    }
+    
+    func configureViews() {
+        carbohydrateView.layer.cornerRadius = 10
+        proteinView.layer.cornerRadius = 10
+        fatView.layer.cornerRadius = 10
+        kcalView.layer.cornerRadius = 10
     }
     
     @IBAction func DashboardButtonClicked(_ sender: UIButton) {

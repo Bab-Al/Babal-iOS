@@ -17,6 +17,7 @@ class MealRecordingViewController: UIViewController {
     
     @IBOutlet weak var mealtypeLabel: UILabel!
     
+    @IBOutlet weak var infoView: UIView!
     @IBOutlet weak var uploadedImageView: UIImageView!
     
     @IBOutlet weak var foodnameTextField: UITextField!
@@ -31,10 +32,16 @@ class MealRecordingViewController: UIViewController {
         
         mealtypeLabel.text = mealType
         
+        configureView()
+        
         fetchNgrokURLFromGoogleDrive { [weak self] url in
             self?.ngrokURL = url
             print("Fetched ngrok URL: \(url ?? "No URL")")
         }
+    }
+    
+    func configureView() {
+        infoView.layer.cornerRadius = 10
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -57,7 +64,7 @@ class MealRecordingViewController: UIViewController {
             UIView.animate(
                 withDuration: 0.3
                 , animations: {
-                    self.view.transform = CGAffineTransform(translationX: 0, y: -130)
+                    self.view.transform = CGAffineTransform(translationX: 0, y: -140)
                 }
             )
         }
