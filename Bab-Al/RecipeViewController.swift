@@ -211,7 +211,7 @@ class RecipeViewController: UIViewController, UISearchBarDelegate, UITableViewDa
         guard let responseVC = storyboard.instantiateViewController(withIdentifier: "RecipeResultViewController") as? RecipeResultViewController else { return }
         
         // Pass the response data
-        responseVC.recipes = recipes
+        responseVC.recipe = recipes
 
         // Navigate to the new view controller
         navigationController?.pushViewController(responseVC, animated: true)
